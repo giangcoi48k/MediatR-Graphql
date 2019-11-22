@@ -1,7 +1,7 @@
 ﻿using HotChocolate.Types;
 using TestGrapQL.Models;
 
-namespace TestGrapQL.GraphTypes
+namespace TestGrapQL.Schema
 {
     public class PaymentType : ObjectType<Payment>
     {

@@ -1,7 +1,5 @@
-﻿using HotChocolate.Resolvers;
-using HotChocolate.Types;
+﻿using HotChocolate.Types;
 using MediatR;
-using System;
 using TestGrapQL.Resolvers;
 
 namespace TestGrapQL.Extensions
@@ -9,21 +7,15 @@ namespace TestGrapQL.Extensions
     public static class ObjectFieldDescriptorExtensions
     {
         public static IObjectFieldDescriptor AddResolver<T>(this IObjectFieldDescriptor descriptor)
-            where T : BaseRequest
+            where T : IBaseResolver, new()
         {
-            return descriptor.Resolver(async ctx =>
-            {
-                var request = (T)Activator.CreateInstance(typeof(T), ctx);
-                return await ctx.Service<IMediator>().Send(request);
-            });
-        }
+            var request = new T();
+            request.CreateArguments(descriptor);
 
-        public static IObjectFieldDescriptor AddResolver<T>(this IObjectFieldDescriptor descriptor, Func<IResolverContext, T> request)
-            where T : BaseRequest
-        {
-            return descriptor.Resolver(async ctx =>
+            return descriptor.Resolver(async context =>
             {
-                return await ctx.Service<IMediator>().Send(request(ctx));
+                request.ResolveArguments(context);
+                return await context.Service<IMediator>().Send(request);
             });
         }
     }

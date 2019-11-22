@@ -11,7 +11,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using TestGrapQL.Extensions;
-using TestGrapQL.GraphTypes;
 using TestGrapQL.Schema;
 
 namespace TestGrapQL

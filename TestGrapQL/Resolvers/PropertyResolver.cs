@@ -1,21 +1,26 @@
 ﻿using HotChocolate.Resolvers;
-using MediatR;
+using HotChocolate.Types;
 using System.Threading;
 using System.Threading.Tasks;
 using TestGrapQL.Services;
 
 namespace TestGrapQL.Resolvers
 {
-    public sealed class PropertyResolver : BaseRequest
+    public sealed class PropertyResolver : IBaseResolver
     {
         public int? Last { get; set; }
 
-        public PropertyResolver(IResolverContext context) : base(context)
+        public void CreateArguments(IObjectFieldDescriptor descriptor)
+        {
+            descriptor.Argument("last", a => a.Type<IntType>());
+        }
+
+        public void ResolveArguments(IResolverContext context)
         {
             Last = context.Argument<int?>("last");
         }
 
-        private class PropertyResolverHandle : IRequestHandler<PropertyResolver, object>
+        private class PropertyResolverHandle : IBaseResolveHandler<PropertyResolver>
         {
             private readonly PropertyService _propertyService;
 
