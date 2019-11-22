@@ -13,22 +13,22 @@ namespace TestGrapQL.Resolvers
 
         public int? Last { get; set; }
 
-        public void CreateArguments(IObjectFieldDescriptor descriptor)
+        public void AddArguments(IObjectFieldDescriptor descriptor)
         {
             descriptor.Argument("last", a => a.Type<IdType>());
         }
 
         public void ResolveArguments(IResolverContext context)
         {
-            Last = context.Argument<int?>("last");
             Id = context.Parent<Property>().Id;
+            Last = context.Argument<int?>("last");
         }
 
-        private class PaymentResolverHandle : IBaseResolveHandler<PaymentResolver>
+        private class Handler : IBaseResolverHandler<PaymentResolver>
         {
             private readonly PaymentService _paymentService;
 
-            public PaymentResolverHandle(PaymentService paymentService)
+            public Handler(PaymentService paymentService)
             {
                 _paymentService = paymentService;
             }

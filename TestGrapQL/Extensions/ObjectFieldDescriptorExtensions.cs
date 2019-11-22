@@ -10,7 +10,7 @@ namespace TestGrapQL.Extensions
             where T : IBaseResolver, new()
         {
             var request = new T();
-            request.CreateArguments(descriptor);
+            request.AddArguments(descriptor);
 
             return descriptor.Resolver(async context =>
             {

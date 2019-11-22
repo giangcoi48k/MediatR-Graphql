@@ -6,7 +6,7 @@ namespace TestGrapQL.Resolvers
 {
     public interface IBaseResolver : IRequest<object>
     {
-        void CreateArguments(IObjectFieldDescriptor descriptor);
+        void AddArguments(IObjectFieldDescriptor descriptor);
 
         void ResolveArguments(IResolverContext context);
     }

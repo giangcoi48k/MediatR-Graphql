@@ -11,6 +11,11 @@ namespace TestGrapQL.Schema
             descriptor
                 .Field("properties")
                 .Type<ListType<NonNullType<PropertyType>>>()
+                .AddResolver<PropertiesResolver>();
+
+            descriptor
+                .Field("property")
+                .Type<PropertyType>()
                 .AddResolver<PropertyResolver>();
         }
     }
