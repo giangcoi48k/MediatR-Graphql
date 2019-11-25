@@ -28,7 +28,7 @@ namespace TestGrapQL
         public void ConfigureServices(IServiceCollection services)
         {
             Assembly assembly = Assembly.GetExecutingAssembly();
-            
+
             services.AddMediatR(assembly);
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
@@ -39,19 +39,16 @@ namespace TestGrapQL
                 options.UseSqlServer(connectionString);
             });
 
-
-            services.AddScopedInjecteds(assembly);
+            services.RegisterServices(ServiceLifetime.Scoped, assembly);
 
             // Add GraphQL Services
             services.AddGraphQL(sp => SchemaBuilder.New()
                     .AddServices(sp)
-                    // Adds the authorize directive and
-                    // enable the authorization middleware.
+                    // Adds the authorize directive and enable the authorization middleware.
                     .AddAuthorizeDirectiveType()
-
                     .AddQueryType<QueryType>()
-                    .AddType<PaymentType>()
-                    .AddType<PropertyType>()
+                    .AddMutationType<MutationType>()
+                    .ScanGraphTypes(assembly)
                     .Create()
                 , new QueryExecutionOptions
                 {

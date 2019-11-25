@@ -27,5 +27,17 @@ namespace TestGrapQL.Services
 
             return await query.ToListAsync();
         }
+
+        public async Task<IEnumerable<Payment>> GetAllForPropertiesAsync(IReadOnlyList<int> keys, int? lastAmount)
+        {
+            var query = _dbContext.Payments.Where(t => keys.Contains(t.PropertyId))
+                .GroupBy(t => t.PropertyId)
+                .SelectMany(t => lastAmount == null
+                    ? t.OrderByDescending(x => x.DateCreated)
+                    : t.OrderByDescending(x => x.DateCreated).Take(lastAmount.Value)
+                );
+
+            return await query.ToListAsync();
+        }
     }
 }

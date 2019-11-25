@@ -33,5 +33,12 @@ namespace TestGrapQL.Services
         {
             return await _dbContext.Properties.FindAsync(id);
         }
+
+        public async Task<Property> AddProperty(Property entity)
+        {
+            _dbContext.Properties.Add(entity);
+            await _dbContext.SaveChangesAsync();
+            return entity;
+        }
     }
 }

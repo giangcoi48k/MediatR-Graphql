@@ -2,6 +2,7 @@
 using HotChocolate.Types;
 using System.Threading;
 using System.Threading.Tasks;
+using TestGrapQL.DataLoaders;
 using TestGrapQL.Models;
 using TestGrapQL.Services;
 
@@ -27,14 +28,17 @@ namespace TestGrapQL.Resolvers
         private class Handler : IBaseResolverHandler<PaymentResolver>
         {
             private readonly PaymentService _paymentService;
+            private readonly PaymentDataLoader _loader;
 
-            public Handler(PaymentService paymentService)
+            public Handler(PaymentService paymentService, PaymentDataLoader loader)
             {
                 _paymentService = paymentService;
+                _loader = loader;
             }
 
             public async Task<object> Handle(PaymentResolver request, CancellationToken cancellationToken)
             {
+                return await _loader.LoadAsync(request.Id, cancellationToken);
                 return await _paymentService.GetAllForPropertyAsync(request.Id, request.Last);
             }
         }
