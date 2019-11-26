@@ -26,8 +26,8 @@ namespace TestGrapQL.Extensions
         {
             var types = assemblies
                 .SelectMany(x => x.GetTypes()
-                    .Where(t => t != typeof(ObjectType) && typeof(ObjectType).IsAssignableFrom(t))
-                    .Where(t => t.GetCustomAttribute<GraphQueryTypeAttribute>() == null
+                    .Where(t => t != typeof(ObjectType) && typeof(ObjectType).IsAssignableFrom(t)
+                        && t.GetCustomAttribute<GraphQueryTypeAttribute>() == null
                         && t.GetCustomAttribute<GraphMutationTypeAttribute>() == null
                         && t.GetCustomAttribute<GraphSubscriptionTypeAttribute>() == null)
                 );
