@@ -1,4 +1,5 @@
 ﻿using HotChocolate.Types;
+using System.Collections.Generic;
 using TestGrapQL.Extensions;
 using TestGrapQL.Models;
 using TestGrapQL.Resolvers;
@@ -13,7 +14,7 @@ namespace TestGrapQL.Schema.QueryTypes
             descriptor
                 .Field(t => t.Payments)
                 .Type<ListType<PaymentType>>()
-                .AddResolver<PaymentResolver>();
+                .AddResolver<PaymentResolver, IEnumerable<Payment>>();
         }
     }
 }

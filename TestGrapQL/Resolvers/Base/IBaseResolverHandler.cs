@@ -2,8 +2,9 @@
 
 namespace TestGrapQL.Resolvers
 {
-    public interface IBaseResolverHandler<in TRequest> : IRequestHandler<TRequest, object>
-        where TRequest : IBaseResolver
+    public interface IBaseResolverHandler<in TRequest, TRespone> : IRequestHandler<TRequest, TRespone>
+      where TRequest : IBaseResolver<TRespone>
     {
+
     }
 }

@@ -1,15 +1,19 @@
-﻿using HotChocolate.Resolvers;
+﻿using GreenDonut;
+using HotChocolate.Resolvers;
 using HotChocolate.Types;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using TestGrapQL.DataLoaders;
 using TestGrapQL.Models;
 using TestGrapQL.Services;
 
 namespace TestGrapQL.Resolvers
 {
-    public sealed class PaymentResolver : IBaseResolver
+    public sealed class PaymentResolver : IBaseResolver<IEnumerable<Payment>>
     {
+        private IResolverContext _context;
+
         public int Id { get; set; }
 
         public int? Last { get; set; }
@@ -21,25 +25,26 @@ namespace TestGrapQL.Resolvers
 
         public void ResolveArguments(IResolverContext context)
         {
+            _context = context;
             Id = context.Parent<Property>().Id;
             Last = context.Argument<int?>("last");
         }
 
-        private class Handler : IBaseResolverHandler<PaymentResolver>
+        private class Handler : IBaseResolverHandler<PaymentResolver, IEnumerable<Payment>>
         {
             private readonly PaymentService _paymentService;
-            private readonly PaymentDataLoader _loader;
 
-            public Handler(PaymentService paymentService, PaymentDataLoader loader)
+            public Handler(PaymentService paymentService)
             {
                 _paymentService = paymentService;
-                _loader = loader;
             }
 
-            public async Task<object> Handle(PaymentResolver request, CancellationToken cancellationToken)
+            public async Task<IEnumerable<Payment>> Handle(PaymentResolver request, CancellationToken cancellationToken)
             {
-                return await _loader.LoadAsync(request.Id, cancellationToken);
-                return await _paymentService.GetAllForPropertyAsync(request.Id, request.Last);
+                return await request._context.GroupDataLoader<int, Payment>(
+                      GetType().FullName
+                    , async keys => (await _paymentService.GetAllForPropertiesAsync(keys, request.Last)).ToLookup(t => t.PropertyId)
+                ).LoadAsync(request.Id).ConfigureAwait(false);
             }
         }
     }

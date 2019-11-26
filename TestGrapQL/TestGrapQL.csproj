@@ -13,9 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="graphiql" Version="1.2.0" />
-    <PackageReference Include="GraphQL" Version="2.4.0" />
-    <PackageReference Include="GraphQL.Server.Transports.AspNetCore" Version="3.4.0" />
     <PackageReference Include="HotChocolate.AspNetCore" Version="10.2.0" />
     <PackageReference Include="HotChocolate.AspNetCore.GraphiQL" Version="10.2.0" />
     <PackageReference Include="HotChocolate.AspNetCore.Playground" Version="10.2.0" />

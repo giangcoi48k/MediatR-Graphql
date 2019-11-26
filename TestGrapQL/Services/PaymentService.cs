@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using GreenDonut;
+using HotChocolate;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -28,16 +30,17 @@ namespace TestGrapQL.Services
             return await query.ToListAsync();
         }
 
-        public async Task<IEnumerable<Payment>> GetAllForPropertiesAsync(IReadOnlyList<int> keys, int? lastAmount)
+        public async Task<IEnumerable<Payment>> GetAllForPropertiesAsync(IReadOnlyList<int> keys, int? last)
         {
             var query = _dbContext.Payments.Where(t => keys.Contains(t.PropertyId))
-                .GroupBy(t => t.PropertyId)
-                .SelectMany(t => lastAmount == null
-                    ? t.OrderByDescending(x => x.DateCreated)
-                    : t.OrderByDescending(x => x.DateCreated).Take(lastAmount.Value)
-                );
+                .OrderByDescending(t => t.DateCreated)
+                .AsQueryable();
 
-            return await query.ToListAsync();
+            if (last != null)
+                query = query.GroupBy(t => t.PropertyId).SelectMany(t => t.Take(last.Value));
+
+            var result = await query.ToListAsync();
+            return result;
         }
     }
 }

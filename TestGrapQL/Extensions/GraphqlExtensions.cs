@@ -10,13 +10,12 @@ namespace TestGrapQL.Extensions
 {
     public static class GraphqlExtensions
     {
-        public static IObjectFieldDescriptor AddResolver<T>(this IObjectFieldDescriptor descriptor)
-            where T : IBaseResolver, new()
+        public static IObjectFieldDescriptor AddResolver<T, TResult>(this IObjectFieldDescriptor descriptor)
+            where T : IBaseResolver<TResult>, new()
         {
             var request = new T();
             request.AddArguments(descriptor);
-
-            return descriptor.Resolver(async context =>
+            return descriptor.Resolver<TResult>(async context =>
             {
                 request.ResolveArguments(context);
                 return await context.Service<IMediator>().Send(request);

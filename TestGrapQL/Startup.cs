@@ -40,6 +40,7 @@ namespace TestGrapQL
             });
 
             services.RegisterServices(ServiceLifetime.Scoped, assembly);
+            services.AddDataLoaderRegistry();
 
             // Add GraphQL Services
             services.AddGraphQL(sp => SchemaBuilder.New()
@@ -67,7 +68,7 @@ namespace TestGrapQL
             }
 
             app
-                .UseWebSockets()
+                //.UseWebSockets()
                 .UseGraphQL("/graphql")
                 .UseGraphiQL("/graphql")
                 .UsePlayground("/graphql", "/graphql")

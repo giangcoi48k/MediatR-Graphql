@@ -4,7 +4,7 @@ using MediatR;
 
 namespace TestGrapQL.Resolvers
 {
-    public interface IBaseResolver : IRequest<object>
+    public interface IBaseResolver<out TResult> : IRequest<TResult>
     {
         void AddArguments(IObjectFieldDescriptor descriptor);
 

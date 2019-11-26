@@ -2,11 +2,12 @@
 using HotChocolate.Types;
 using System.Threading;
 using System.Threading.Tasks;
+using TestGrapQL.Models;
 using TestGrapQL.Services;
 
 namespace TestGrapQL.Resolvers
 {
-    public sealed class PropertyResolver : IBaseResolver
+    public sealed class PropertyResolver : IBaseResolver<Property>
     {
         public int Id { get; set; }
 
@@ -20,7 +21,7 @@ namespace TestGrapQL.Resolvers
             Id = context.Argument<int>("id");
         }
 
-        private class Handler : IBaseResolverHandler<PropertyResolver>
+        private class Handler : IBaseResolverHandler<PropertyResolver, Property>
         {
             private readonly PropertyService _propertyService;
 
@@ -29,7 +30,7 @@ namespace TestGrapQL.Resolvers
                 _propertyService = propertyService;
             }
 
-            public async Task<object> Handle(PropertyResolver request, CancellationToken cancellationToken)
+            public async Task<Property> Handle(PropertyResolver request, CancellationToken cancellationToken)
             {
                 return await _propertyService.GetByIdAsync(request.Id);
             }

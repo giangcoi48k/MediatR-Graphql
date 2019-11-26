@@ -1,6 +1,8 @@
 ﻿using HotChocolate.Types;
+using System.Collections.Generic;
 using TestGrapQL.Attributes;
 using TestGrapQL.Extensions;
+using TestGrapQL.Models;
 using TestGrapQL.Resolvers;
 using TestGrapQL.Schema.QueryTypes;
 
@@ -14,12 +16,12 @@ namespace TestGrapQL.Schema
             descriptor
                 .Field("properties")
                 .Type<ListType<NonNullType<PropertyType>>>()
-                .AddResolver<PropertiesResolver>();
+                .AddResolver<PropertiesResolver, IEnumerable<Property>>();
 
             descriptor
                 .Field("property")
                 .Type<PropertyType>()
-                .AddResolver<PropertyResolver>();
+                .AddResolver<PropertyResolver, Property>();
         }
     }
 }
