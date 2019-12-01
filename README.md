@@ -1,0 +1,2 @@
+- Use hotchocolate
+- Use mediatr
