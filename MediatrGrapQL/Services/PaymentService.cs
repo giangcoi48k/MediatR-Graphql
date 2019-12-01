@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using MediatrGrapQL.Attributes;
 using MediatrGrapQL.Models;
+using EFSecondLevelCache.Core;
+using System;
 
 namespace MediatrGrapQL.Services
 {

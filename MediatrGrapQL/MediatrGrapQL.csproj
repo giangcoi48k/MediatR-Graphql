@@ -6,6 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="CacheManager.Microsoft.Extensions.Caching.Memory" Version="1.2.0" />
+    <PackageReference Include="CacheManager.Serialization.Json" Version="1.2.0" />
+    <PackageReference Include="CacheManager.StackExchange.Redis" Version="1.2.0" />
+    <PackageReference Include="EFSecondLevelCache.Core" Version="2.8.2" />
     <PackageReference Include="HotChocolate.AspNetCore" Version="10.2.0" />
     <PackageReference Include="HotChocolate.AspNetCore.GraphiQL" Version="10.2.0" />
     <PackageReference Include="HotChocolate.AspNetCore.Playground" Version="10.2.0" />

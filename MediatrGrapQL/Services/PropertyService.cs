@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using MediatrGrapQL.Attributes;
 using MediatrGrapQL.Models;
+using System;
+using EFSecondLevelCache.Core;
 
 namespace MediatrGrapQL.Services
 {
@@ -26,7 +28,8 @@ namespace MediatrGrapQL.Services
             if (last != null)
                 query = query.Take(last.Value);
 
-            return await query.ToListAsync();
+            return await query
+                .ToListAsync();
         }
 
         public async Task<Property> GetByIdAsync(int id)
