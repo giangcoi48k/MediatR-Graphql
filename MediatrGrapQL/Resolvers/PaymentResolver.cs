@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatrGrapQL.Models;
 using MediatrGrapQL.Services;
+using MediatrGrapQL.Schema.QueryTypes;
 
 namespace MediatrGrapQL.Resolvers
 {
@@ -18,12 +19,14 @@ namespace MediatrGrapQL.Resolvers
 
         public int? Last { get; set; }
 
-        public void AddArguments(IObjectFieldDescriptor descriptor)
+        public void ConfigFieldDescriptor(IObjectFieldDescriptor descriptor)
         {
-            descriptor.Argument("last", a => a.Type<IdType>());
+            descriptor
+                .Type<ListType<PaymentType>>()
+                .Argument("last", a => a.Type<IdType>());
         }
 
-        public void ResolveArguments(IResolverContext context)
+        public void ResolverContext(IResolverContext context)
         {
             _context = context;
             Id = context.Parent<Property>().Id;
@@ -44,7 +47,7 @@ namespace MediatrGrapQL.Resolvers
                 return await request._context.GroupDataLoader<int, Payment>(
                       GetType().FullName
                     , async keys => (await _paymentService.GetAllForPropertiesAsync(keys, request.Last)).ToLookup(t => t.PropertyId)
-                ).LoadAsync(request.Id).ConfigureAwait(false);
+                ).LoadAsync(request.Id);
             }
         }
     }

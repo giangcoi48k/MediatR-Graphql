@@ -1,8 +1,8 @@
 ﻿using HotChocolate.Types;
 using System.Collections.Generic;
-using MediatrGrapQL.Extensions;
 using MediatrGrapQL.Models;
 using MediatrGrapQL.Resolvers;
+using HotChocolate;
 
 namespace MediatrGrapQL.Schema.QueryTypes
 {
@@ -13,8 +13,8 @@ namespace MediatrGrapQL.Schema.QueryTypes
             descriptor.Name(nameof(PropertyType));
             descriptor
                 .Field(t => t.Payments)
-                .Type<ListType<PaymentType>>()
                 .AddResolver<PaymentResolver, IEnumerable<Payment>>();
+
         }
     }
 }

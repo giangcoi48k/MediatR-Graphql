@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using MediatrGrapQL.Extensions;
 using MediatrGrapQL.Schema;
+using HotChocolate.Types;
 
 namespace MediatrGrapQL
 {

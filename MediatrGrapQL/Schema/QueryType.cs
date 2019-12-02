@@ -1,10 +1,10 @@
 ﻿using HotChocolate.Types;
 using System.Collections.Generic;
 using MediatrGrapQL.Attributes;
-using MediatrGrapQL.Extensions;
 using MediatrGrapQL.Models;
 using MediatrGrapQL.Resolvers;
 using MediatrGrapQL.Schema.QueryTypes;
+using HotChocolate.Types.Relay;
 
 namespace MediatrGrapQL.Schema
 {
@@ -22,6 +22,11 @@ namespace MediatrGrapQL.Schema
                 .Field("property")
                 .Type<PropertyType>()
                 .AddResolver<PropertyResolver, Property>();
+
+            descriptor
+                .Field("strings")
+                .Type<ListType<PropertyType>>()
+                .AddResolver<StringsResolver, PageableData<Property>>();
         }
     }
 }

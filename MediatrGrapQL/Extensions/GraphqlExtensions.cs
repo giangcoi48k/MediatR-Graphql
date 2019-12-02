@@ -1,23 +1,20 @@
-﻿using HotChocolate;
-using HotChocolate.Types;
-using MediatR;
+﻿using MediatR;
 using System.Linq;
 using System.Reflection;
 using MediatrGrapQL.Attributes;
 using MediatrGrapQL.Resolvers;
 
-namespace MediatrGrapQL.Extensions
+namespace HotChocolate.Types
 {
     public static class GraphqlExtensions
     {
-        public static IObjectFieldDescriptor AddResolver<T, TResult>(this IObjectFieldDescriptor descriptor)
-            where T : IBaseResolver<TResult>, new()
+        public static IObjectFieldDescriptor AddResolver<T, TResult>(this IObjectFieldDescriptor descriptor) where T : class, IBaseResolver<TResult>, new()
         {
             var request = new T();
-            request.AddArguments(descriptor);
+            request.ConfigFieldDescriptor(descriptor);
             return descriptor.Resolver<TResult>(async context =>
             {
-                request.ResolveArguments(context);
+                request.ResolverContext(context);
                 return await context.Service<IMediator>().Send(request);
             });
         }

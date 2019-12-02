@@ -12,12 +12,12 @@ namespace MediatrGrapQL.Resolvers
     {
         public int? Last { get; set; }
 
-        public void AddArguments(IObjectFieldDescriptor descriptor)
+        public void ConfigFieldDescriptor(IObjectFieldDescriptor descriptor)
         {
             descriptor.Argument("last", a => a.Type<IdType>());
         }
 
-        public void ResolveArguments(IResolverContext context)
+        public void ResolverContext(IResolverContext context)
         {
             Last = context.Argument<int?>("last");
         }

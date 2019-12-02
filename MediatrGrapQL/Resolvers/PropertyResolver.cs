@@ -11,12 +11,12 @@ namespace MediatrGrapQL.Resolvers
     {
         public int Id { get; set; }
 
-        public void AddArguments(IObjectFieldDescriptor descriptor)
+        public void ConfigFieldDescriptor(IObjectFieldDescriptor descriptor)
         {
             descriptor.Argument("id", a => a.Type<IdType>());
         }
 
-        public void ResolveArguments(IResolverContext context)
+        public void ResolverContext(IResolverContext context)
         {
             Id = context.Argument<int>("id");
         }

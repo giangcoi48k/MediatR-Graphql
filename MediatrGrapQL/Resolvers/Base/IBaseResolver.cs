@@ -6,8 +6,8 @@ namespace MediatrGrapQL.Resolvers
 {
     public interface IBaseResolver<out TResult> : IRequest<TResult>
     {
-        void AddArguments(IObjectFieldDescriptor descriptor);
+        void ConfigFieldDescriptor(IObjectFieldDescriptor descriptor);
 
-        void ResolveArguments(IResolverContext context);
+        void ResolverContext(IResolverContext context);
     }
 }
